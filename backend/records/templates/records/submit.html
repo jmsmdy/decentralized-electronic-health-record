@@ -10,12 +10,12 @@
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>                                                     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css" integrity="sha256-DOS9W6NR+NFe1fUhEE0PGKY/fubbUCnOfTje2JMDw3Y=" crossorigin="anonymous" />               
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js" integrity="sha256-FEqEelWI3WouFOo2VWP/uJfs1y8KJ++FLh2Lbqc8SJk=" crossorigin="anonymous"></script>    
-    <script src="{% static 'records/jquery.formset.js' %}"></script>
+    <!--<script src="{% static 'records/jquery.formset.js' %}"></script>
     <script type="text/javascript">
         $(function() {
             $('#myForm tbody tr').formset();
         })
-    </script>
+    </script>-->
     <link rel="stylesheet" href="{% static 'records/css/bootstrap.css' %}">
     <script src="{% static 'records/js/bootstrap.js' %}"></script>
     {% leaflet_js plugins="forms" %}
@@ -25,29 +25,49 @@
 <body>
     <style>
         .leaflet-container {  /* all maps */
-            width:  800px;
-            height: 600px;
+            width:  100%;
+            height: 100%;
         }
     </style>
 
 <form class="form-horizontal" id="myForm" method="POST" action="">
 {% csrf_token %}
-<table>
-<tbody>
+<div id="forms">
 {% for form in formset %}
-    <tr>
-        <td>{{ form.location }}</td>
-        <td>{{ form.time }}</td>
-    <tr>
+    <div class="container">
+    <div class="row">
+        <div class="col-1"></div>
+        <div class="col-10">{{ form.location }}</div>
+        <div class="col-1"></div>
+    </div>
+    </div>
+<!-- <td>{{ form.time }}</td>-->
 {% endfor %}
-</tbody>
 {{ formset.management_form }}
-</table>
-<div class="row spacer">
-    <div class="col-12">
+</div>
+<a href="javascript:void(0)" id="add_form">Add Form</a>
+<div class="container">
+<div class="row">
+    <div "col-2"></div>
+    <div class="col-8">
         <button type="submit" class="btn btn-block btn-primary">SUBMIT</button>
     </div>
+    <div "col-2"></div>
+</div>
 </div>
 </form>
+
+
+
+<script>
+var form_count = {{formset.total_form_count}};
+$('#add_form').click(function() {
+    var new_form_location = '{{formset.empty_form.location|escapejs}}'.replace(/__prefix__/g, form_count);
+    $('#forms').append(new_form_location)
+    $('#id_form-TOTAL_FORMS').val(form_count);
+    window['loadmapid_form-' + form_count.toString() + '-location-map']();   
+    form_count++;
+});
+</script>
 
 </html>

@@ -25,7 +25,7 @@ from .secrets import SECRET_KEY
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['45.79.138.94',]
 
 
 # Application definition
@@ -46,8 +46,9 @@ INSTALLED_APPS = [
 
 LEAFLET_CONFIG = {
     'DEFAULT_CENTER': (52.00,20.00),
-    'DEFAULT_ZOOM': 2,
-    'MIN_ZOOM': 2
+    'DEFAULT_ZOOM': 4,
+    'MIN_ZOOM': 2,
+    'NO_GLOBALS': False
 }
 
 MIDDLEWARE = [
@@ -126,4 +127,5 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
+STATIC_ROOT = os.path.join(BASE_DIR, "static/")
 STATIC_URL = '/static/'
