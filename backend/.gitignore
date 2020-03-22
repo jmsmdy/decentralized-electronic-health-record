@@ -141,3 +141,4 @@ cython_debug/
 # Secrets
 *secrets.py
 google_api.json
+data/*
