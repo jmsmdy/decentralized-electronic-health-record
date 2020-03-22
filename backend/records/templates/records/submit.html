@@ -9,13 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>                                                     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css" integrity="sha256-DOS9W6NR+NFe1fUhEE0PGKY/fubbUCnOfTje2JMDw3Y=" crossorigin="anonymous" />               
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js" integrity="sha256-FEqEelWI3WouFOo2VWP/uJfs1y8KJ++FLh2Lbqc8SJk=" crossorigin="anonymous"></script>    
-    <!--<script src="{% static 'records/jquery.formset.js' %}"></script>
-    <script type="text/javascript">
-        $(function() {
-            $('#myForm tbody tr').formset();
-        })
-    </script>-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js" integrity="sha256-FEqEelWI3WouFOo2VWP/uJfs1y8KJ++FLh2Lbqc8SJk=" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="{% static 'records/css/bootstrap.css' %}">
     <script src="{% static 'records/js/bootstrap.js' %}"></script>
     {% leaflet_js plugins="forms" %}
@@ -30,44 +24,336 @@
         }
     </style>
 
+<div class="container text-center">
+    <h1>COVID-19 Reporting Form</h1>
+<div> 
+
 <form class="form-horizontal" id="myForm" method="POST" action="">
 {% csrf_token %}
+
+    {{ form.estimated_date_contracted.errors }}
+    <div class="row">
+        <div class="col-1"></div>
+        <div class="col-10 text-center">
+            <b>{{ form.estimated_date_contracted.label }}</b>
+        </div>
+        <div class="col-1"></div>
+    </div>
+    <div class="row">
+        <div class="col-1"></div>
+        <div class="col-10 text-center">
+            <div class="form-group {% if form.estimated_date_contracted.errors %}has-error{% endif %}">
+                {{ form.estimated_date_contracted }}
+            </div>
+        </div>
+        <div class="col-1"></div>
+    </div>
+
+
+    {{ form.date_first_symptoms.errors }}
+    <div class="row">
+        <div class="col-1"></div>
+        <div class="col-10 text-center">
+            <b>{{ form.date_first_symptoms.label }}</b>
+        </div>
+        <div class="col-1"></div>
+    </div>
+    <div class="row">
+        <div class="col-1"></div>
+        <div class="col-10 text-center">
+            <div class="form-group {% if form.date_first_symptoms.errors %}has-error{% endif %}">
+                {{ form.date_first_symptoms }}
+            </div>
+        </div>
+        <div class="col-1"></div>
+    </div>
+
+    {{ form.date_confirmed.errors }}
+    <div class="row">
+        <div class="col-1"></div>
+        <div class="col-10 text-center">
+            <b>{{ form.date_confirmed.label }}</b>
+        </div>
+        <div class="col-1"></div>
+    </div>
+    <div class="row">
+        <div class="col-1"></div>
+        <div class="col-10 text-center">
+            <div class="form-group {% if form.date_confirmed.errors %}has-error{% endif %}">
+                {{ form.date_confirmed }}
+            </div>
+        </div>
+        <div class="col-1"></div>
+    </div>
+
+    {{ form.additional_info.errors }}
+    <div class="row">
+        <div class="col-1"></div>
+        <div class="col-10 text-center">
+            <b>{{ form.additional_info.label }}</b>
+        </div>
+        <div class="col-1"></div>
+    </div>
+    <div class="row">
+        <div class="col-1"></div>
+        <div class="col-10 text-center">
+            <div class="form-group text-center {% if form.additional_info.errors %}has-error{% endif %}">
+                {{ form.additional_info }}
+            </div>
+        </div>
+        <div class="col-1"></div>
+    </div>
+
+<div class="container text-center">
+<h4>Please answer the following questions about your medical history. Your answers will be used for statistical analysis, and will not be tied to your identity.</h4>
+</div>
+
+    {{ form.age_range.errors }}
+    <div class="row">
+        <div class="col-1"></div>
+        <div class="col-10 text-center">
+            <b>{{ form.age_range.label }}</b>
+        </div>
+        <div class="col-1"></div>
+    </div>
+    <div class="row">
+        <div class="col-1"></div>
+        <div class="col-10 text-center">
+            <div class="form-group text-center {% if form.age_range.errors %}has-error{% endif %}">
+                {{ form.age_range }}
+            </div>
+        </div>
+        <div class="col-1"></div>
+    </div>
+
+    {{ form.gender.errors }}
+    <div class="row">
+        <div class="col-1"></div>
+        <div class="col-10 text-center">
+            <b>{{ form.gender.label }}</b>
+        </div>
+        <div class="col-1"></div>
+    </div>
+    <div class="row">
+        <div class="col-1"></div>
+        <div class="col-10 text-center">
+            <div class="form-group text-center {% if form.gender.errors %}has-error{% endif %}">
+                {{ form.gender }}
+            </div>
+        </div>
+        <div class="col-1"></div>
+    </div>
+
+{{ form.diseases }}
+
+<div class="container text-center">
+<h4>Where have you been since the estimated date of contraction? Please include all locations, and be as specific as possible.</h4>
+</div>
+
 <div id="forms">
 {% for form in formset %}
-    <div class="container">
+    <div class="row">
+        <div class="col-1"></div>
+        <div class="col-10 text-center" ><b>Pick a location.</b></div>
+        <div class="col-1"></div>
+    </div>
+    <div class="container-fluid" id="form_container-{{ forloop.counter0 }}">
     <div class="row">
         <div class="col-1"></div>
         <div class="col-10">{{ form.location }}</div>
+        <div class="col-1"><a href="javascript:void(0)" class="btn btn-danger btn_block" id="remove_form-{{ forloop.counter0 }}" onclick="removeForm({{ forloop.counter0 }})">X</a></div>
+    </div>
+    <div class="row">
+        <div class="col-1"></div>
+        <div class="col-10 text-center" ><b>How far did you travel while in this location?</b></div>
+        <div class="col-1"></div>
+    </div>
+    <div class="row">
+        <div class="col-1"></div>
+        <div class="col-10 text-center" > {{ form.radius }}</div>
+        <div class="col-1"></div>
+    </div>
+    <div class="row">
+        <div class="col-1"></div>
+        <div class="col-10 text-center" ><b>When were you here? </b></div>
+        <div class="col-1"></div>
+    </div>
+    {{ form.start_date.errors }}
+    <div class="row">
+        <div class="col-1"></div>
+        <div class="col-3 text-right" ><b>START </b></div>
+        <div class="col-7 text-left">
+            <div class="form-group {% if form.start_date.errors %}has-error{% endif %}">
+                {{ form.start_date }}
+            </div>
+        </div>
+        <div class="col-1"></div>
+    </div>
+    {{ form.end_date.errors }}
+    <div class="row">
+        <div class="col-1"></div>
+        <div class="col-3 text-right"><b>END</b></div>
+        <div class="col-7 text-left">
+            <div class="form-group {% if form.end_date.errors %}has-error{% endif %}">
+                {{ form.end_date }}
+            </div>
+        </div>
         <div class="col-1"></div>
     </div>
     </div>
-<!-- <td>{{ form.time }}</td>-->
 {% endfor %}
 {{ formset.management_form }}
 </div>
-<a href="javascript:void(0)" id="add_form">Add Form</a>
+<div class="container">
+<div class = "row">
+    <div class="col-1"></div>
+    <div class="col-10">
+        <a href="javascript:void(0)" class="btn btn-info btn-block my-2" id="add_form">Add Another Location</a>
+    </div>
+    <div class="col-1"></div>
+</div>
+</div>
 <div class="container">
 <div class="row">
-    <div "col-2"></div>
-    <div class="col-8">
-        <button type="submit" class="btn btn-block btn-primary">SUBMIT</button>
+    <div class="col-12">
+        <button type="submit" class="btn btn-block btn-primary my-2">SUBMIT</button>
     </div>
-    <div "col-2"></div>
 </div>
 </div>
 </form>
 
-
-
 <script>
+function add_row(content_array, parent) {
+    var row = document.createElement("div");
+    row.classList.add("row");
+    var left_spacer = document.createElement("div");
+    left_spacer.classList.add("col-1");
+    row.appendChild(left_spacer);
+    for (const content of content_array) {
+        row.appendChild(content);
+    }
+    var right_spacer = document.createElement("div");
+    right_spacer.classList.add("col-1");
+    row.appendChild(right_spacer);
+    parent.appendChild(row);
+}
+
+function add_title_row(parent) {
+      var text = document.createElement("div");
+      text.classList.add("col-10", "text-center");
+      text.innerHTML = "<b>When were you here? </b>";
+      add_row([text], parent);
+}
+
+function add_map_rows(form_id, parent) {
+    var text = document.createElement("div");
+    text.classList.add("col-10", "text-center");
+    text.innerHTML = "<b>Pick a location.</b>";
+    add_row([text], parent);
+    var map_row = document.createElement("div");
+    map_row.classList.add("row");
+    parent.appendChild(map_row);
+    var left_spacer = document.createElement("div");
+    left_spacer.classList.add("col-1");
+    var map = document.createElement("div");
+    map.classList.add("col-10");
+    map.id = "map_id-" + form_count.toString();
+    var right_spacer = document.createElement("div");
+    right_spacer.classList.add("col-1");
+    map_row.appendChild(left_spacer);
+    map_row.appendChild(map);
+    map_row.appendChild(right_spacer);
+    var delete_button = document.createElement("a");
+    delete_button.href = "javascript:void(0)";
+    delete_button.classList.add("btn", "btn-danger", "btn_block");
+    delete_button.id = "remove_form-" + form_count.toString();
+    const removeFormFunc = removeForm.bind(undefined, form_count);
+    delete_button.onclick = function() {removeFormFunc();};
+    delete_button.innerText="X";
+    right_spacer.appendChild(delete_button);
+}
+
+function add_radius_rows(form_id, parent) {
+    var text = document.createElement("div");
+    text.classList.add("col-10", "text-center");
+    text.innerHTML = "<b>How far did you travel while in this location? </b>";
+    add_row([text], parent);
+    var radius_field = document.createElement("div");
+    radius_field.id = "radius_field-id-" + form_id.toString();
+    add_row([radius_field], parent);
+    var new_form_radius = '{{formset.empty_form.end_radius|escapejs}}'.replace(/__prefix__/g, form_id);
+    $("#radius_field-id-" + form_id.toString()).append(new_form_radius);
+}
+
+
+function add_start_date_row(form_id, parent) {
+    var text = document.createElement("div");
+    text.innerHTML = "<b>START</b>";
+    text.classList.add("col-3", "text-right");
+    var start_date = document.createElement("div");
+    start_date.classList.add("col-7", "text_left");
+    start_date.id = "start_date_field-id-" + form_id.toString();
+    add_row([text, start_date], parent);
+    var new_form_start_date = '{{formset.empty_form.start_date|escapejs}}'.replace(/__prefix__/g, form_id);
+    $("#start_date_field-id-" + form_id.toString()).append(new_form_start_date);
+}
+
+function add_end_date_row(form_id, parent) {
+    var text = document.createElement("div");
+    text.innerHTML = "<b>END</b>";
+    text.classList.add("col-3", "text-right");
+    var end_date = document.createElement("div");
+    end_date.classList.add("col-7", "text_left");
+    end_date.id = "end_date_field-id-" + form_id.toString();
+    add_row([text, end_date], parent)
+    var new_form_end_date = '{{formset.empty_form.end_date|escapejs}}'.replace(/__prefix__/g, form_id);
+    $("#end_date_field-id-" + form_id.toString()).append(new_form_end_date);
+}
+
+
+function removeForm(form_id) {
+    var form_container = document.getElementById("form_container-" + form_id.toString());
+    form_container.style.display = 'none';
+    var delete_input = document.createElement("input");
+    delete_input.type = "checkbox";
+    delete_input.id = "id_form-" + form_id + "-DELETE";
+    delete_input.name = "form-" + form_id + "-DELETE"; 
+    delete_input.checked = true;
+    form_container.appendChild(delete_input);
+}
+
+var form_count = {{formset.total_form_count}};
+document.getElementById("add_form").onclick = addMapForm;
+var empty_form = '{{formset.empty_form.location|escapejs}}'
+
+function addMapForm() {
+    var container = document.createElement("div");
+    container.classList.add("container-fluid", "my-5");
+    container.id = "form_container-" + form_count.toString();
+    add_map_rows(form_count, container);
+    document.getElementById("forms").appendChild(container);
+    var new_form_location = '{{formset.empty_form.location|escapejs}}'.replace(/__prefix__/g, form_count);
+    $("#map_id-" + form_count).append(new_form_location);
+    window['loadmapid_form-' + form_count.toString() + '-location-map']();
+    add_radius_rows(form_count, container);
+    add_title_row(container);
+    add_start_date_row(form_count, container);
+    add_end_date_row(form_count, container);
+    form_count++;
+    document.getElementById("id_form-TOTAL_FORMS").value = form_count;
+}
+</script>
+
+
+<!--<script>
 var form_count = {{formset.total_form_count}};
 $('#add_form').click(function() {
     var new_form_location = '{{formset.empty_form.location|escapejs}}'.replace(/__prefix__/g, form_count);
     $('#forms').append(new_form_location)
-    $('#id_form-TOTAL_FORMS').val(form_count);
-    window['loadmapid_form-' + form_count.toString() + '-location-map']();   
+    window['loadmapid_form-' + form_count.toString() + '-location-map']();
     form_count++;
+    $('#id_form-TOTAL_FORMS').val(form_count);
 });
-</script>
+</script>-->
 
 </html>

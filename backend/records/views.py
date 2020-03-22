@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.core.serializers import serialize
 
-from .forms import ConfirmedCaseForm, SpaceTimeFormset, ContagionSiteForm
+from .forms import ConfirmedCaseForm, ContagionSiteForm, ContagionSiteFormset
 from .models import ConfirmedCase, ContagionSite
 
 
@@ -37,14 +37,19 @@ def submit(request):
     template_name = 'records/submit.html'
     heading_message = 'Submit COVID-19 Case'
     if request.method == 'GET':
-        formset = SpaceTimeFormset(request.GET or None)
+        form = ConfirmedCaseForm(request.GET or None)
+        formset = ContagionSiteFormset(request.GET or None)
     elif request.method == 'POST':
-        formset = SpaceTimeFormset(request.POST)
-        if formset.is_valid():
-            for form in formset:
-                print(form.cleaned_data.get('location'), form.cleaned_data.get('time'))
-                return HttpResponseRedirect('/records/')
+        form = ConfirmedCaseForm(request.POST)
+        formset = ContagionSiteFormset(request.POST)
+        print(form.is_valid(), formset.is_valid())
+        if form.is_valid() & formset.is_valid():
+            print(form.cleaned_data)
+            for subform in formset.cleaned_data:
+                print(subform)
+            return HttpResponseRedirect('/records/')
     return render(request, template_name, {
+        'form' : form,
         'formset' : formset,
         'heading' : heading_message
     })

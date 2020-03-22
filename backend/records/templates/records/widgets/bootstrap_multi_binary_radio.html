@@ -1,0 +1,17 @@
+{% spaceless %}{% for widget in widget.subwidgets %}
+ 
+    <div class="row">
+        <div class="col-1"></div>
+        <div class="col-10 text-center">
+            <b>{{ widget.radio_name }}</b>
+        </div>
+        <div class="col-1"></div>
+    </div>
+    <div class="row">
+        <div class="col-1"></div>
+        <div class="col-10 text-center">
+            {% include widget.template_name %}
+        </div>
+        <div class="col-1"></div>
+    </div>
+{% endfor %}{% endspaceless %}
