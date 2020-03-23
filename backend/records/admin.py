@@ -4,7 +4,12 @@ from .models import ConfirmedCase, ContagionSite
 
 @admin.register(ConfirmedCase)
 class ConfirmedCaseAdmin(OSMGeoAdmin):
-    list_display = ['location', 'estimated_date_contracted', 'date_first_symptoms', 'date_confirmed']
+    list_display = ['estimated_date_contracted',
+                    'date_first_symptoms',
+                    'date_confirmed',
+                    'age_range',
+                    'gender',
+                    'additional_info']
 
 @admin.register(ContagionSite)
 class ContagionSiteAdmin(OSMGeoAdmin):

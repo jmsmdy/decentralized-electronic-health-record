@@ -26,6 +26,7 @@ class ConfirmedCaseForm(forms.Form):
     additional_info = forms.CharField(
         widget=BootstrapTextArea(),
         label = 'Additional Information',
+        max_length=40000,
         required=False
     )
 

@@ -281,7 +281,7 @@ function add_radius_rows(form_id, parent) {
     var radius_field = document.createElement("div");
     radius_field.id = "radius_field-id-" + form_id.toString();
     add_row([radius_field], parent);
-    var new_form_radius = '{{formset.empty_form.end_radius|escapejs}}'.replace(/__prefix__/g, form_id);
+    var new_form_radius = '{{formset.empty_form.radius|escapejs}}'.replace(/__prefix__/g, form_id);
     $("#radius_field-id-" + form_id.toString()).append(new_form_radius);
 }
 

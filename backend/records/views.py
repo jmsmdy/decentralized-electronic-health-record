@@ -3,8 +3,8 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.core.serializers import serialize
 
 from .forms import ConfirmedCaseForm, ContagionSiteForm, ContagionSiteFormset
-from .models import ConfirmedCase, ContagionSite
-
+from .models import ConfirmedCase, ContagionSite, PreexistingConditionDatum
+from .choices import diseases
 
 def index(request):
     return HttpResponse("Recorcds Index")
@@ -33,6 +33,34 @@ def add_contagion_site(request, confirmed_case_id):
                    'confirmed_case_id' : confirmed_case_id})
 
 
+def process(form_data, formset_data):
+    case = ConfirmedCase(
+        estimated_date_contracted = form_data['estimated_date_contracted'],
+        date_first_symptoms = form_data['date_first_symptoms'],
+        date_confirmed = form_data['date_confirmed'],
+        age_range = form_data['age_range'],
+        gender = form_data['gender'],
+        additional_info = form_data['additional_info']
+    )
+    case.save()
+    disease_answers = form_data['diseases'].split('---')
+    for i in range(len(diseases)):
+        ped = PreexistingConditionDatum(
+            confirmed_case = case,
+            disease = diseases[i][0],
+            status = disease_answers[i]
+        )
+        ped.save()
+    for subform_data in formset_data:
+        cs = ContagionSite(
+            confirmed_case = case,
+            transmission_site = subform_data['location'],
+            start_date = subform_data['start_date'],
+            end_date = subform_data['end_date']
+        )
+        cs.save()
+
+
 def submit(request):
     template_name = 'records/submit.html'
     heading_message = 'Submit COVID-19 Case'
@@ -47,6 +75,7 @@ def submit(request):
             print(form.cleaned_data)
             for subform in formset.cleaned_data:
                 print(subform)
+            process(form.cleaned_data, formset.cleaned_data)
             return HttpResponseRedirect('/records/')
     return render(request, template_name, {
         'form' : form,
